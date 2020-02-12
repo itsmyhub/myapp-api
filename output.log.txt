@@ -1,0 +1,364 @@
+/*
+    Setup Git for the sources, following is the link...
+    git@github.com:itsmyhub/myapp-api.git
+*/
+Dropbox/mySandbox/pydjango
+√ -> git clone git@github.com:itsmyhub/myapp-api.git
+fatal: destination path 'myapp-api' already exists and is not an empty directory.
+Dropbox/mySandbox/pydjango
+?->? -> clear
+Dropbox/mySandbox/pydjango
+√ -> cd myapp-api
+mySandbox/pydjango/myapp-api
+√ -> git init
+Initialized empty Git repository in /Users/itsbiznet/Dropbox/mySandbox/pydjango/myapp-api/.git/
+mySandbox/pydjango/myapp-api
+√ -> git add
+Nothing specified, nothing added.
+Maybe you wanted to say 'git add .'?
+mySandbox/pydjango/myapp-api
+√ -> git add .
+mySandbox/pydjango/myapp-api
+√ -> git commit -m "Initial Django API container sources"
+[master (root-commit) 1a6ee6e] Initial Django API container sources
+ 10 files changed, 256 insertions(+)
+ create mode 100644 Dockerfile
+ create mode 100644 app/app/__init__.py
+ create mode 100644 app/app/asgi.py
+ create mode 100644 app/app/settings.py
+ create mode 100644 app/app/urls.py
+ create mode 100644 app/app/wsgi.py
+ create mode 100755 app/manage.py
+ create mode 100644 docker-compose.yml
+ create mode 100644 output.log.txt
+ create mode 100644 requirements.txt
+mySandbox/pydjango/myapp-api
+√ -> git remote add origin git@github.com:itsmyhub/myapp-api.git
+mySandbox/pydjango/myapp-api
+√ -> git push -u origin master
+Warning: Permanently added the RSA host key for IP address '140.82.114.3' to the list of known hosts.
+To github.com:itsmyhub/myapp-api.git
+ ! [rejected]        master -> master (fetch first)
+error: failed to push some refs to 'git@github.com:itsmyhub/myapp-api.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+mySandbox/pydjango/myapp-api
+?->? -> git push -f origin master
+Enumerating objects: 13, done.
+Counting objects: 100% (13/13), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (12/12), done.
+Writing objects: 100% (13/13), 3.60 KiB | 1.20 MiB/s, done.
+Total 13 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), done.
+To github.com:itsmyhub/myapp-api.git
+ + 84bba0d...1a6ee6e master -> master (forced update)
+
+
+mySandbox/pydjango/myapp-api
+√ -> git status
+On branch master
+nothing to commit, working tree clean
+
+
+
+
+*** *** *** *** *** *** *** *** *** *** *** ***
+        Build docker container
+*** *** *** *** *** *** *** *** *** *** *** ***
+
+mySandbox/pydjango/myapp-api
+√ -> docker build .
+
+
+Sending build context to Docker daemon   5.12kB
+Step 1/13 : FROM python:3.7-alpine
+ ---> 6e6836872132
+Step 2/13 : MAINTAINER amjad <itsbiznet@gmail.com>
+ ---> Running in f9825e137479
+Removing intermediate container f9825e137479
+ ---> ab3943297b68
+Step 3/13 : ENV PYTHONUNBUFFERED 1
+ ---> Running in c81d87aef362
+Removing intermediate container c81d87aef362
+ ---> 4ba20f41d731
+Step 4/13 : COPY ./requirements.txt /requirements.txt
+ ---> aa0464cadb0c
+Step 5/13 : RUN apk add --update --no-cache postgresql-client
+ ---> Running in f17851e1a35d
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/community/x86_64/APKINDEX.tar.gz
+(1/6) Installing libedit (20191211.3.1-r0)
+(2/6) Installing db (5.3.28-r1)
+(3/6) Installing libsasl (2.1.27-r5)
+(4/6) Installing libldap (2.4.48-r1)
+(5/6) Installing libpq (12.1-r0)
+(6/6) Installing postgresql-client (12.1-r0)
+Executing busybox-1.31.1-r9.trigger
+OK: 23 MiB in 41 packages
+Removing intermediate container f17851e1a35d
+ ---> 94829912e947
+Step 6/13 : RUN apk add --update --no-cache --virtual .tmp-build-deps       gcc libc-dev linux-headers postgresql-dev
+ ---> Running in e7c74e9449cd
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/community/x86_64/APKINDEX.tar.gz
+(1/18) Installing libgcc (9.2.0-r3)
+(2/18) Installing libstdc++ (9.2.0-r3)
+(3/18) Installing binutils (2.33.1-r0)
+(4/18) Installing gmp (6.1.2-r1)
+(5/18) Installing isl (0.18-r0)
+(6/18) Installing libgomp (9.2.0-r3)
+(7/18) Installing libatomic (9.2.0-r3)
+(8/18) Installing mpfr4 (4.0.2-r1)
+(9/18) Installing mpc1 (1.1.0-r1)
+(10/18) Installing gcc (9.2.0-r3)
+(11/18) Installing musl-dev (1.1.24-r0)
+(12/18) Installing libc-dev (0.7.2-r0)
+(13/18) Installing linux-headers (4.19.36-r0)
+(14/18) Installing pkgconf (1.6.3-r0)
+(15/18) Installing openssl-dev (1.1.1d-r3)
+(16/18) Installing postgresql-libs (12.1-r0)
+(17/18) Installing postgresql-dev (12.1-r0)
+(18/18) Installing .tmp-build-deps (20200211.175513)
+Executing busybox-1.31.1-r9.trigger
+OK: 146 MiB in 59 packages
+Removing intermediate container e7c74e9449cd
+ ---> 9eaec1c6e740
+Step 7/13 : RUN pip install -r /requirements.txt
+ ---> Running in a0d969e157b1
+Collecting Django<3.2.0,>=3.0.3
+  Downloading Django-3.0.3-py3-none-any.whl (7.5 MB)
+Collecting djangorestframework<3.12.0,>=3.11.0
+  Downloading djangorestframework-3.11.0-py3-none-any.whl (911 kB)
+Collecting psycopg2<2.8.0,>=2.7.5
+  Downloading psycopg2-2.7.7.tar.gz (427 kB)
+Collecting flake8<3.8.0,>=3.7.9
+  Downloading flake8-3.7.9-py2.py3-none-any.whl (69 kB)
+Collecting sqlparse>=0.2.2
+  Downloading sqlparse-0.3.0-py2.py3-none-any.whl (39 kB)
+Collecting asgiref~=3.2
+  Downloading asgiref-3.2.3-py2.py3-none-any.whl (18 kB)
+Collecting pytz
+  Downloading pytz-2019.3-py2.py3-none-any.whl (509 kB)
+Collecting mccabe<0.7.0,>=0.6.0
+  Downloading mccabe-0.6.1-py2.py3-none-any.whl (8.6 kB)
+Collecting pyflakes<2.2.0,>=2.1.0
+  Downloading pyflakes-2.1.1-py2.py3-none-any.whl (59 kB)
+Collecting pycodestyle<2.6.0,>=2.5.0
+  Downloading pycodestyle-2.5.0-py2.py3-none-any.whl (51 kB)
+Collecting entrypoints<0.4.0,>=0.3.0
+  Downloading entrypoints-0.3-py2.py3-none-any.whl (11 kB)
+Building wheels for collected packages: psycopg2
+  Building wheel for psycopg2 (setup.py): started
+  Building wheel for psycopg2 (setup.py): finished with status 'done'
+  Created wheel for psycopg2: filename=psycopg2-2.7.7-cp37-cp37m-linux_x86_64.whl size=520415 sha256=d6db6f55cf3ae2ec3f5ade651c1d9b3e8b1a3d3c18c0acd7743d5b3a38cc758b
+  Stored in directory: /root/.cache/pip/wheels/3d/c8/cd/d43fc1edb0127f01f4dee6789fd45d8e93e211e0fd9a04b824
+Successfully built psycopg2
+Installing collected packages: sqlparse, asgiref, pytz, Django, djangorestframework, psycopg2, mccabe, pyflakes, pycodestyle, entrypoints, flake8
+Successfully installed Django-3.0.3 asgiref-3.2.3 djangorestframework-3.11.0 entrypoints-0.3 flake8-3.7.9 mccabe-0.6.1 psycopg2-2.7.7 pycodestyle-2.5.0 pyflakes-2.1.1 pytz-2019.3 sqlparse-0.3.0
+Removing intermediate container a0d969e157b1
+ ---> 087e41ae6920
+Step 8/13 : RUN apk del .tmp-build-deps
+ ---> Running in 591557cc896d
+WARNING: Ignoring APKINDEX.70f61090.tar.gz: No such file or directory
+WARNING: Ignoring APKINDEX.ca2fea5b.tar.gz: No such file or directory
+(1/18) Purging .tmp-build-deps (20200211.175513)
+(2/18) Purging gcc (9.2.0-r3)
+(3/18) Purging binutils (2.33.1-r0)
+(4/18) Purging libatomic (9.2.0-r3)
+(5/18) Purging libgomp (9.2.0-r3)
+(6/18) Purging libc-dev (0.7.2-r0)
+(7/18) Purging musl-dev (1.1.24-r0)
+(8/18) Purging linux-headers (4.19.36-r0)
+(9/18) Purging postgresql-dev (12.1-r0)
+(10/18) Purging openssl-dev (1.1.1d-r3)
+(11/18) Purging postgresql-libs (12.1-r0)
+(12/18) Purging libstdc++ (9.2.0-r3)
+(13/18) Purging libgcc (9.2.0-r3)
+(14/18) Purging isl (0.18-r0)
+(15/18) Purging mpc1 (1.1.0-r1)
+(16/18) Purging mpfr4 (4.0.2-r1)
+(17/18) Purging gmp (6.1.2-r1)
+(18/18) Purging pkgconf (1.6.3-r0)
+Executing busybox-1.31.1-r9.trigger
+OK: 23 MiB in 41 packages
+Removing intermediate container 591557cc896d
+ ---> f4909326a148
+Step 9/13 : RUN mkdir app
+ ---> Running in b0cc44410f79
+Removing intermediate container b0cc44410f79
+ ---> 0f9ef015d654
+Step 10/13 : WORKDIR /app
+ ---> Running in cae3f16d21ba
+Removing intermediate container cae3f16d21ba
+ ---> 7af857752141
+Step 11/13 : COPY ./app /app
+ ---> 3c9d0f184fe8
+Step 12/13 : RUN adduser -D user
+ ---> Running in c05f965ced9a
+Removing intermediate container c05f965ced9a
+ ---> 2eefea1adb11
+Step 13/13 : USER user
+ ---> Running in 37d75f013df2
+Removing intermediate container 37d75f013df2
+ ---> 28273baf8430
+Successfully built 28273baf8430
+mySandbox/pydjango/myapp-api
+
+
+*** *** *** *** *** *** *** *** *** *** *** ***
+    Run composer as follows:
+*** *** *** *** *** *** *** *** *** *** *** ***
+mySandbox/pydjango/myapp-api
+√ -> docker-compose build
+
+
+db uses an image, skipping
+Building app
+Step 1/13 : FROM python:3.7-alpine
+ ---> 6e6836872132
+Step 2/13 : MAINTAINER amjad <itsbiznet@gmail.com>
+ ---> Using cache
+ ---> ab3943297b68
+Step 3/13 : ENV PYTHONUNBUFFERED 1
+ ---> Using cache
+ ---> 4ba20f41d731
+Step 4/13 : COPY ./requirements.txt /requirements.txt
+ ---> 6f28ce280ccc
+Step 5/13 : RUN apk add --update --no-cache postgresql-client
+ ---> Running in d19fe44a234e
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/community/x86_64/APKINDEX.tar.gz
+(1/6) Installing libedit (20191211.3.1-r0)
+(2/6) Installing db (5.3.28-r1)
+(3/6) Installing libsasl (2.1.27-r5)
+(4/6) Installing libldap (2.4.48-r1)
+(5/6) Installing libpq (12.1-r0)
+(6/6) Installing postgresql-client (12.1-r0)
+Executing busybox-1.31.1-r9.trigger
+OK: 23 MiB in 41 packages
+Removing intermediate container d19fe44a234e
+ ---> 53d1ea48a814
+Step 6/13 : RUN apk add --update --no-cache --virtual .tmp-build-deps       gcc libc-dev linux-headers postgresql-dev
+ ---> Running in e52ad56036d0
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/community/x86_64/APKINDEX.tar.gz
+(1/18) Installing libgcc (9.2.0-r3)
+(2/18) Installing libstdc++ (9.2.0-r3)
+(3/18) Installing binutils (2.33.1-r0)
+(4/18) Installing gmp (6.1.2-r1)
+(5/18) Installing isl (0.18-r0)
+(6/18) Installing libgomp (9.2.0-r3)
+(7/18) Installing libatomic (9.2.0-r3)
+(8/18) Installing mpfr4 (4.0.2-r1)
+(9/18) Installing mpc1 (1.1.0-r1)
+(10/18) Installing gcc (9.2.0-r3)
+(11/18) Installing musl-dev (1.1.24-r0)
+(12/18) Installing libc-dev (0.7.2-r0)
+(13/18) Installing linux-headers (4.19.36-r0)
+(14/18) Installing pkgconf (1.6.3-r0)
+(15/18) Installing openssl-dev (1.1.1d-r3)
+(16/18) Installing postgresql-libs (12.1-r0)
+(17/18) Installing postgresql-dev (12.1-r0)
+(18/18) Installing .tmp-build-deps (20200211.180336)
+Executing busybox-1.31.1-r9.trigger
+OK: 146 MiB in 59 packages
+Removing intermediate container e52ad56036d0
+ ---> 5725b266df32
+Step 7/13 : RUN pip install -r /requirements.txt
+ ---> Running in d113dc2af3ee
+Collecting Django<3.2.0,>=3.0.3
+  Downloading Django-3.0.3-py3-none-any.whl (7.5 MB)
+Collecting djangorestframework<3.12.0,>=3.11.0
+  Downloading djangorestframework-3.11.0-py3-none-any.whl (911 kB)
+Collecting psycopg2<2.8.0,>=2.7.5
+  Downloading psycopg2-2.7.7.tar.gz (427 kB)
+Collecting flake8<3.8.0,>=3.7.9
+  Downloading flake8-3.7.9-py2.py3-none-any.whl (69 kB)
+Collecting pytz
+  Downloading pytz-2019.3-py2.py3-none-any.whl (509 kB)
+Collecting asgiref~=3.2
+  Downloading asgiref-3.2.3-py2.py3-none-any.whl (18 kB)
+Collecting sqlparse>=0.2.2
+  Downloading sqlparse-0.3.0-py2.py3-none-any.whl (39 kB)
+Collecting pycodestyle<2.6.0,>=2.5.0
+  Downloading pycodestyle-2.5.0-py2.py3-none-any.whl (51 kB)
+Collecting entrypoints<0.4.0,>=0.3.0
+  Downloading entrypoints-0.3-py2.py3-none-any.whl (11 kB)
+Collecting pyflakes<2.2.0,>=2.1.0
+  Downloading pyflakes-2.1.1-py2.py3-none-any.whl (59 kB)
+Collecting mccabe<0.7.0,>=0.6.0
+  Downloading mccabe-0.6.1-py2.py3-none-any.whl (8.6 kB)
+Building wheels for collected packages: psycopg2
+  Building wheel for psycopg2 (setup.py): started
+  Building wheel for psycopg2 (setup.py): finished with status 'done'
+  Created wheel for psycopg2: filename=psycopg2-2.7.7-cp37-cp37m-linux_x86_64.whl size=520301 sha256=9ff82909eb427cb1bde268140111640c00fa697696b557760cce3476d5c8b53a
+  Stored in directory: /root/.cache/pip/wheels/3d/c8/cd/d43fc1edb0127f01f4dee6789fd45d8e93e211e0fd9a04b824
+Successfully built psycopg2
+Installing collected packages: pytz, asgiref, sqlparse, Django, djangorestframework, psycopg2, pycodestyle, entrypoints, pyflakes, mccabe, flake8
+Successfully installed Django-3.0.3 asgiref-3.2.3 djangorestframework-3.11.0 entrypoints-0.3 flake8-3.7.9 mccabe-0.6.1 psycopg2-2.7.7 pycodestyle-2.5.0 pyflakes-2.1.1 pytz-2019.3 sqlparse-0.3.0
+Removing intermediate container d113dc2af3ee
+ ---> 10ada4fa3f19
+Step 8/13 : RUN apk del .tmp-build-deps
+ ---> Running in 11c0d5f6393c
+WARNING: Ignoring APKINDEX.70f61090.tar.gz: No such file or directory
+WARNING: Ignoring APKINDEX.ca2fea5b.tar.gz: No such file or directory
+(1/18) Purging .tmp-build-deps (20200211.180336)
+(2/18) Purging gcc (9.2.0-r3)
+(3/18) Purging binutils (2.33.1-r0)
+(4/18) Purging libatomic (9.2.0-r3)
+(5/18) Purging libgomp (9.2.0-r3)
+(6/18) Purging libc-dev (0.7.2-r0)
+(7/18) Purging musl-dev (1.1.24-r0)
+(8/18) Purging linux-headers (4.19.36-r0)
+(9/18) Purging postgresql-dev (12.1-r0)
+(10/18) Purging openssl-dev (1.1.1d-r3)
+(11/18) Purging postgresql-libs (12.1-r0)
+(12/18) Purging libstdc++ (9.2.0-r3)
+(13/18) Purging libgcc (9.2.0-r3)
+(14/18) Purging isl (0.18-r0)
+(15/18) Purging mpc1 (1.1.0-r1)
+(16/18) Purging mpfr4 (4.0.2-r1)
+(17/18) Purging gmp (6.1.2-r1)
+(18/18) Purging pkgconf (1.6.3-r0)
+Executing busybox-1.31.1-r9.trigger
+OK: 23 MiB in 41 packages
+Removing intermediate container 11c0d5f6393c
+ ---> a59b4e7db24c
+Step 9/13 : RUN mkdir app
+ ---> Running in db0aea7b9d07
+Removing intermediate container db0aea7b9d07
+ ---> b040a2f1d6df
+Step 10/13 : WORKDIR /app
+ ---> Running in 23f39315a54b
+Removing intermediate container 23f39315a54b
+ ---> 9aa45a88f382
+Step 11/13 : COPY ./app /app
+ ---> b49c6c65dd3b
+Step 12/13 : RUN adduser -D user
+ ---> Running in 9c3cd4addaf6
+Removing intermediate container 9c3cd4addaf6
+ ---> b3f47cb16d61
+Step 13/13 : USER user
+ ---> Running in ed014610e7e7
+Removing intermediate container ed014610e7e7
+ ---> 4da4be16b20b
+
+Successfully built 4da4be16b20b
+Successfully tagged myapp-api_app:latest
+mySandbox/pydjango/myapp-api
+
+
+
+*** *** *** *** *** *** *** *** *** *** *** ***
+    Running Django Project
+    docker-compose run app sh -c "django-admin.py startproject app ."
+*** *** *** *** *** *** *** *** *** *** *** ***
+
+mySandbox/pydjango/myapp-api
+√ -> docker-compose run app sh -c "django-admin.py startproject app ."
+Creating network "myapp-api_default" with the default driver
+Creating myapp-api_db_1 ... done
